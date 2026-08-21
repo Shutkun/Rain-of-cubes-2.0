@@ -177,6 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ddda53c5e321e140bedcb7c68b068d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minTimerValue: 2
+  _maxTimerValue: 5
   _colorRandom: {fileID: -4613772991048415247}
   _timerController: {fileID: 6610230688274032027}
 --- !u!114 &6610230688274032027
@@ -191,8 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9c5142914201c479407d741f8391de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerController
-  _minTimerValue: 2
-  _maxTimerValue: 5
 --- !u!114 &-4613772991048415247
 MonoBehaviour:
   m_ObjectHideFlags: 0

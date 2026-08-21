@@ -6,11 +6,11 @@ public class Spawners<T> where T : MonoBehaviour
     private Stack<T> _objects = new();
     private T _prefab;
 
-    public Spawners(T prefab, int maxSize)
+    public Spawners(T prefab, int initialCount)
     {
         _prefab = prefab;
 
-        for (int i = 0; i < maxSize; i++)
+        for (int i = 0; i < initialCount; i++)
         {
             Create();
         }

@@ -5,11 +5,12 @@ using Random = UnityEngine.Random;
 public class CubeSpawner : MonoBehaviour
 {
     [SerializeField] private Cube _prefab;
-    [SerializeField] private GameObject _startPoint;
-    [SerializeField] private int _poolMaxSize;
+    [SerializeField] private Transform _startPoint;
+    [SerializeField] private int _initialCount;
 
     public event Action<int,int> CubsSpawned;
-    private float _timeOfWaiting = 0.7f;
+    public event Action<Transform> CubRealeased;
+    private float _timeOfWaiting = 0.5f;
     private int _objCount = 0;
     private int _totalSpawnObject = 0;
     private Coroutine _coroutine;
@@ -17,7 +18,7 @@ public class CubeSpawner : MonoBehaviour
 
     private void Awake()
     {
-        _spawner = new Spawners<Cube>(_prefab, _poolMaxSize);
+        _spawner = new Spawners<Cube>(_prefab, _initialCount);
     }
 
     private void Start()
@@ -37,6 +38,7 @@ public class CubeSpawner : MonoBehaviour
        while(enabled)
         {
             Cube cube = _spawner.Get();
+            cube.transform.SetParent(transform);
             cube.TimeOut += ActionOnRelease;
             cube.gameObject.transform.position = GetRandomPosition();
             cube.gameObject.SetActive(true);
@@ -50,6 +52,7 @@ public class CubeSpawner : MonoBehaviour
     private void ActionOnRelease(Cube cube)
     {
         cube.TimeOut -= ActionOnRelease;
+        CubRealeased?.Invoke(cube.transform);
         _objCount--;
         CubsSpawned?.Invoke(_objCount,_totalSpawnObject);
         _spawner.Release(cube);
@@ -57,8 +60,8 @@ public class CubeSpawner : MonoBehaviour
 
     private Vector3 GetRandomPosition()
     {
-        Vector3 origin = _startPoint.transform.position;
-        Vector3 range = _startPoint.transform.localScale / 2f;
+        Vector3 origin = _startPoint.position;
+        Vector3 range = _startPoint.localScale / 2f;
         Vector3 randomRange = new Vector3(
             Random.Range(-range.x, range.x),
             Random.Range(-range.y, range.y),

@@ -142,7 +142,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &8239992263877094014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,5 +181,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bomb
   _minTimerValue: 2
   _maxTimerValue: 5
-  _colorRandom: {fileID: 1760911504041305653}
+  _colorController: {fileID: 1760911504041305653}
   _timerController: {fileID: 8239992263877094014}

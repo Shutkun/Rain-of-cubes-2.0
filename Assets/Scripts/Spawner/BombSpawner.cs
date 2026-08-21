@@ -1,40 +1,38 @@
 using System;
 using UnityEngine;
 
-public class SpawnerBombs : MonoBehaviour
+public class BombSpawner : MonoBehaviour
 {
-    [SerializeField] private int _poolMaxSize;
+    [SerializeField] private int _initialCount;
     [Space]
     [SerializeField] private Bomb _bombsPrefab;
-    [SerializeField] private Cube _parentPrefab;
+    [SerializeField] private CubeSpawner _cubeSpawner;
 
     public event Action<int, int> BombSpawned;
+    public event Action<Bomb> BombReleased;
 
     private int _objCount = 0;
     private int _totalSpawnObject = 0;
 
     private Spawners<Bomb> _spawner;
 
-    private void Start()
-    {
-        _spawner = new Spawners<Bomb>(_bombsPrefab, _poolMaxSize);
-    }
-
     private void OnEnable()
     {
-        _parentPrefab.TimeOut += Spawn;
+        _spawner = new Spawners<Bomb>(_bombsPrefab, _initialCount);
+        _cubeSpawner.CubRealeased += Spawn;
     }
 
     private void OnDisable()
     {
-        _parentPrefab.TimeOut -= Spawn;
+        _cubeSpawner.CubRealeased -= Spawn;
     }
 
-    private void Spawn(Cube cube)
+    public void Spawn(Transform transform)
     {
         Bomb bomb = _spawner.Get();
+        bomb.transform.SetParent(gameObject.transform);
         bomb.TimeOut += ActionOnRelease;
-        bomb.gameObject.transform.position = cube.transform.position;
+        bomb.gameObject.transform.position = transform.position;
         bomb.gameObject.SetActive(true);
         _objCount++;
         _totalSpawnObject++;
@@ -44,9 +42,9 @@ public class SpawnerBombs : MonoBehaviour
     private void ActionOnRelease(Bomb bomb)
     {
         bomb.TimeOut -= ActionOnRelease;
+        BombReleased?.Invoke(bomb);
         _objCount--;
         BombSpawned?.Invoke(_objCount, _totalSpawnObject);
         _spawner.Release(bomb);
     }
-
 }
