@@ -10,9 +10,15 @@ public class SpawnerView : MonoBehaviour
     private ISpawnerWithStats _spawner;
     private void OnEnable()
     {
-        _spawner = _spawnerComponent.GetComponent<ISpawnerWithStats>();
+        if (_spawnerComponent.TryGetComponent<ISpawnerWithStats>(out ISpawnerWithStats stats))
+        {
+            _spawner = stats;
+        }
+
         if (_spawner != null)
+        {
             _spawner.Spawned += ChangeText;
+        }
     }
 
     private void OnDisable()
