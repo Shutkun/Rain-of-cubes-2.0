@@ -8,6 +8,7 @@ public class SpawnerView : MonoBehaviour
     [SerializeField] private MonoBehaviour _spawnerComponent;
 
     private ISpawnerWithStats _spawner;
+    
     private void OnEnable()
     {
         if (_spawnerComponent.TryGetComponent<ISpawnerWithStats>(out ISpawnerWithStats stats))
