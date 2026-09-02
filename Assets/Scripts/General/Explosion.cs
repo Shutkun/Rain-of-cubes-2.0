@@ -18,15 +18,15 @@ public class Explosion : MonoBehaviour
         _bombSpawner.BombReleased -= Explode;
     }
 
-    private void Explode(Bomb bomb)
+    private void Explode(Vector3 bombPosition)
     {
-        Collider[] overlappColliders = Physics.OverlapSphere(bomb.transform.position, _radius);
+        Collider[] overlappColliders = Physics.OverlapSphere(bombPosition, _radius);
 
         foreach (Collider col in overlappColliders)
         {
             if (col.TryGetComponent<Rigidbody>(out Rigidbody component))
             {
-                component.AddExplosionForce(_force, bomb.transform.position, _radius);
+                component.AddExplosionForce(_force, bombPosition, _radius);
             }
         }
     }

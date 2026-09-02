@@ -3,36 +3,27 @@ using UnityEngine;
 
 public class SpawnerView : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _counterCubs;
-    [SerializeField] private TextMeshProUGUI _counterBombs;
-    [SerializeField] private CubeSpawner _counterCub;
-    [SerializeField] private BombSpawner _counterBomb;
+    [SerializeField] private TextMeshProUGUI _textField;
+    [SerializeField] private string _name;
+    [SerializeField] private MonoBehaviour _spawnerComponent;
 
-
+    private ISpawnerWithStats _spawner;
     private void OnEnable()
     {
-        _counterCub.CubsSpawned += ChangeTextCubs;
-        _counterBomb.BombSpawned += ChangeTextBombs;
+        _spawner = _spawnerComponent.GetComponent<ISpawnerWithStats>();
+        if (_spawner != null)
+            _spawner.Spawned += ChangeText;
     }
 
     private void OnDisable()
     {
-        _counterCub.CubsSpawned -= ChangeTextCubs;
-        _counterBomb.BombSpawned -= ChangeTextBombs;
+        if (_spawner != null)
+            _spawner.Spawned -= ChangeText;
     }
 
-    private void ChangeTextCubs(int currentNumber, int totalCount)
+    private void ChangeText(int current, int total)
     {
-        ChangeText(_counterCubs, currentNumber, totalCount, "кубов");
-    }
-
-    private void ChangeTextBombs(int currentNumber, int totalCount)
-    {
-        ChangeText(_counterBombs, currentNumber, totalCount, "бомб");
-    }
-
-    private void ChangeText(TextMeshProUGUI field, int currentNumber, int totalCount, string name)
-    {
-        field.text = $"На сцене {currentNumber} {name}\nВсего заспавнено было {totalCount}";
+        _textField.text = $"На сцене {current} {_name}\nВсего заспавнено было {total}";
     }
 }
+

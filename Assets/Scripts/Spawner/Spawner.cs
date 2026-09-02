@@ -1,40 +1,49 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Spawners<T> where T : MonoBehaviour
+public abstract class Spawner<T> : MonoBehaviour, ISpawnerWithStats
+    where T : MonoBehaviour, ITimeoutable<T>
 {
-    private Stack<T> _objects = new();
-    private T _prefab;
+    [SerializeField] private int _initialCount;
+    [Space]
+    [SerializeField] protected T _prefab;
 
-    public Spawners(T prefab, int initialCount)
+    public event Action<int, int> Spawned;
+
+    private int _objCount = 0;
+    private int _totalSpawnObject = 0;
+
+    private Pool<T> _pool;
+
+    private void Awake()
     {
-        _prefab = prefab;
-
-        for (int i = 0; i < initialCount; i++)
-        {
-            Create();
-        }
+        _pool = new Pool<T>(_prefab, _initialCount);
     }
 
-    public void Release(T obj)
+    protected T SpawnObject(Vector3 position)
     {
-        obj.gameObject.SetActive(false);
-        _objects.Push(obj);
+        T obj = _pool.Get();
+        obj.transform.SetParent(gameObject.transform);
+        obj.TimeOut += OnObjectTimeout;
+        obj.gameObject.transform.position = position;
+        obj.gameObject.SetActive(true);
+
+        _objCount++;
+        _totalSpawnObject++;
+        Spawned?.Invoke(_objCount, _totalSpawnObject);
+
+        return obj;
     }
 
-    public T Get()
-    {
-        if(_objects.Count == 0)
-        {
-            Create();
-        }
+    protected abstract void OnObjectReleased(T obj);
 
-        return _objects.Pop();
-    }
-
-    private void Create()
+    private void OnObjectTimeout(T obj)
     {
-        var obj = Object.Instantiate(_prefab);
-        Release(obj);
+        obj.TimeOut -= OnObjectTimeout;
+        OnObjectReleased(obj);
+
+        _objCount--;
+        Spawned?.Invoke(_objCount, _totalSpawnObject);
+        _pool.Release(obj);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Renderer), typeof(Rigidbody))]
-public class Cube : MonoBehaviour
+public class Cube : MonoBehaviour, ITimeoutable<Cube>
 {
     [SerializeField] private int _minTimerValue = 2;
     [SerializeField] private int _maxTimerValue = 5;

@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Renderer))]
-public class Bomb : MonoBehaviour
+public class Bomb : MonoBehaviour, ITimeoutable<Bomb>
 {
     [SerializeField] private int _minTimerValue = 2;
     [SerializeField] private int _maxTimerValue = 5;
@@ -22,13 +22,13 @@ public class Bomb : MonoBehaviour
     }
     private void OnEnable()
     {
-        _timerController.TimerEnded += ResetParametrs;
+        _timerController.TimerEnded += ResetObject;
         ChangeFade();
     }
 
     private void OnDisable()
     {
-        _timerController.TimerEnded -= ResetParametrs;
+        _timerController.TimerEnded -= ResetObject;
     }
 
     public void SetPosition(Vector3 position) =>
@@ -42,7 +42,7 @@ public class Bomb : MonoBehaviour
         _colorController.StratChangeAlha(_renderer,time);
     }
 
-    private void ResetParametrs()
+    private void ResetObject()
     {
         TimeOut?.Invoke(this);
         _renderer.material.color = _currentColor;
