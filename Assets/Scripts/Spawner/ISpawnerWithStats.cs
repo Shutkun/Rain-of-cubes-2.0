@@ -2,5 +2,5 @@ using System;
 
 public interface ISpawnerWithStats
 {
-    event Action<int, int> Spawned;
+    event Action<int, int, int> Spawned;
 }

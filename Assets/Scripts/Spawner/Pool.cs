@@ -6,6 +6,9 @@ public class Pool<T> where T : MonoBehaviour
 {
     private Stack<T> _objects = new();
     private T _prefab;
+    private int _createCount = 0;
+
+    public int CreateCount => _createCount;
 
     public Pool(T prefab, int initialCount)
     {
@@ -36,7 +39,7 @@ public class Pool<T> where T : MonoBehaviour
     private void Create()
     {
         var obj = Object.Instantiate(_prefab);
-        SpawnStatistics.AddCreated();
+        _createCount++;
         Release(obj);
     }
 }

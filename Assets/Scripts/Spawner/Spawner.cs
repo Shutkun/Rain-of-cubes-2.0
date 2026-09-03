@@ -8,7 +8,7 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawnerWithStats
     [Space]
     [SerializeField] protected T _prefab;
 
-    public event Action<int, int> Spawned;
+    public event Action<int, int, int> Spawned;
 
     private int _objCount = 0;
     private int _totalSpawnObject = 0;
@@ -30,7 +30,7 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawnerWithStats
 
         _objCount++;
         _totalSpawnObject++;
-        Spawned?.Invoke(_objCount, _totalSpawnObject);
+        Spawned?.Invoke(_objCount, _totalSpawnObject, _pool.CreateCount);
 
         return obj;
     }
@@ -43,7 +43,7 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawnerWithStats
         OnObjectReleased(obj);
 
         _objCount--;
-        Spawned?.Invoke(_objCount, _totalSpawnObject);
+        Spawned?.Invoke(_objCount, _totalSpawnObject, _pool.CreateCount);
         _pool.Release(obj);
     }
 }

@@ -27,9 +27,9 @@ public class SpawnerView : MonoBehaviour
             _spawner.Spawned -= ChangeText;
     }
 
-    private void ChangeText(int current, int total)
+    private void ChangeText(int current, int total, int createCount)
     {
-        _textField.text = $"На сцене {current} {_name}\nВсего заспавнено было {total}";
+        _textField.text = $"На сцене {current} {_name}\nВсего заспавнено было {total} \nВсего создано {createCount}";
     }
 }
 
