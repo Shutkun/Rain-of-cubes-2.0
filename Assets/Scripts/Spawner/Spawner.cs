@@ -6,25 +6,24 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawnerWithStats
 {
     [SerializeField] private int _initialCount;
     [Space]
-    [SerializeField] protected T _prefab;
-
-    public event Action<int, int, int> Spawned;
+    [SerializeField] protected T Prefab;
 
     private int _objCount = 0;
     private int _totalSpawnObject = 0;
-
     private Pool<T> _pool;
+
+    public event Action<int, int, int> Spawned;
 
     private void Awake()
     {
-        _pool = new Pool<T>(_prefab, _initialCount);
+        _pool = new Pool<T>(Prefab, _initialCount);
     }
 
     protected T SpawnObject(Vector3 position)
     {
         T obj = _pool.Get();
         obj.transform.SetParent(gameObject.transform);
-        obj.TimeOut += OnObjectTimeout;
+        obj.TimeOut += Timeout;
         obj.gameObject.transform.position = position;
         obj.gameObject.SetActive(true);
 
@@ -35,12 +34,12 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawnerWithStats
         return obj;
     }
 
-    protected abstract void OnObjectReleased(T obj);
+    protected abstract void ReleaseObject(T obj);
 
-    private void OnObjectTimeout(T obj)
+    private void Timeout(T obj)
     {
-        obj.TimeOut -= OnObjectTimeout;
-        OnObjectReleased(obj);
+        obj.TimeOut -= Timeout;
+        ReleaseObject(obj);
 
         _objCount--;
         Spawned?.Invoke(_objCount, _totalSpawnObject, _pool.CreateCount);

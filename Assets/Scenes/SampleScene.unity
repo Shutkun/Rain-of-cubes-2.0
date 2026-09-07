@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnerCubs
   _initialCount: 0
-  _prefab: {fileID: -9174468300166172075, guid: abd8df284c2321a48b6de27b668f3d22, type: 3}
+  Prefab: {fileID: -9174468300166172075, guid: abd8df284c2321a48b6de27b668f3d22, type: 3}
   _startPoint: {fileID: 1280539848}
 --- !u!1 &1280539845
 GameObject:
@@ -1370,7 +1370,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1597913319}
   - component: {fileID: 1597913321}
-  - component: {fileID: 1597913322}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1407,18 +1406,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597913318}
   m_CullTransparentMesh: 1
---- !u!114 &1597913322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597913318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aa80f6888dbde40aec8e0b952abc1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TotalCreatedView
 --- !u!1 &1604064250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,7 +1665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnerBombs
   _initialCount: 0
-  _prefab: {fileID: 5122615560499868336, guid: 6135ca91d4c6cc24f8291715fa60b1db, type: 3}
+  Prefab: {fileID: 5122615560499868336, guid: 6135ca91d4c6cc24f8291715fa60b1db, type: 3}
   _cubeSpawner: {fileID: 1217862474}
 --- !u!1 &1885887746
 GameObject:

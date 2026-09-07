@@ -4,9 +4,9 @@ using Object = UnityEngine.Object;
 
 public class Pool<T> where T : MonoBehaviour
 {
-    private Stack<T> _objects = new();
-    private T _prefab;
     private int _createCount = 0;
+    private T _prefab;
+    private Stack<T> _objects = new();
 
     public int CreateCount => _createCount;
 

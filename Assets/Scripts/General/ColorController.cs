@@ -13,7 +13,7 @@ public class ColorController : MonoBehaviour
     public void ChangeColor(Renderer renderer) =>
         renderer.material.color = Random.ColorHSV();
 
-    public void StratChangeAlha(Renderer renderer, float time)
+    public void StartChangeAlpha(Renderer renderer, float time)
     {
         StopChangeAlpha();
 

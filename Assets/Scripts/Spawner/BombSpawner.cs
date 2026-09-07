@@ -17,7 +17,7 @@ public class BombSpawner : Spawner<Bomb>
         _cubeSpawner.CubRealeased -= Spawn;
     }
 
-    protected override void OnObjectReleased(Bomb bomb)
+    protected override void ReleaseObject(Bomb bomb)
     {
         BombReleased?.Invoke(bomb.transform.position);
     }

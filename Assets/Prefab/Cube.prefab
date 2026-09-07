@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minTimerValue: 2
   _maxTimerValue: 5
-  _colorRandom: {fileID: -4613772991048415247}
+  _colorController: {fileID: -4613772991048415247}
   _timerController: {fileID: 6610230688274032027}
 --- !u!114 &6610230688274032027
 MonoBehaviour:

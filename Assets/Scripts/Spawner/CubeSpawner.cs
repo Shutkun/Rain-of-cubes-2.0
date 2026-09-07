@@ -7,10 +7,10 @@ public class CubeSpawner : Spawner<Cube>
 {
     [SerializeField] private Transform _startPoint;
 
-    public event Action<Transform> CubRealeased;
     private float _timeOfWaiting = 0.5f;
     private Coroutine _coroutine;
 
+    public event Action<Transform> CubRealeased;
 
     private void Start()
     {
@@ -22,7 +22,7 @@ public class CubeSpawner : Spawner<Cube>
         StopCoroutine(_coroutine);
     }
 
-    protected override void OnObjectReleased(Cube cube)
+    protected override void ReleaseObject(Cube cube)
     {
         CubRealeased?.Invoke(cube.transform);
     }

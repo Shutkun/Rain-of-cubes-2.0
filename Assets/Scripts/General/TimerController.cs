@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class TimerController : MonoBehaviour
 {
-    public event Action TimerEnded;
     private Coroutine _coroutine;
+    public event Action TimerEnded;
 
-    public void StartTimer(int time)
+    public void Star(int time)
     {
-        StopTimer();
-        _coroutine = StartCoroutine(disappearingTimer(time));
+        Stop();
+        _coroutine = StartCoroutine(Disappearing(time));
     }
 
-    public void StopTimer()
+    public void Stop()
     {
         if (_coroutine != null)
         {
@@ -22,11 +22,11 @@ public class TimerController : MonoBehaviour
         }
     }
 
-    private IEnumerator disappearingTimer(int time)
+    private IEnumerator Disappearing(int time)
     {
-        WaitForSeconds _waitForSeconds = new WaitForSeconds(time);
+        WaitForSeconds wait = new WaitForSeconds(time);
 
-        yield return _waitForSeconds;
+        yield return wait;
 
         TimerEnded?.Invoke();
     }

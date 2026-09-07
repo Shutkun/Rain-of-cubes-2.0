@@ -1,51 +1,10 @@
-using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Renderer))]
-public class Bomb : MonoBehaviour, ITimeoutable<Bomb>
+public class Bomb : EntityUnderTimer<Bomb>
 {
-    [SerializeField] private int _minTimerValue = 2;
-    [SerializeField] private int _maxTimerValue = 5;
-    [Space]
-    [SerializeField] private ColorController _colorController;
-    [SerializeField] private TimerController _timerController;
-
-    public event Action<Bomb> TimeOut;
-    private Renderer _renderer;
-    private Color _currentColor;
-
-    private void Awake()
+    protected override void StartedTimer(int time) 
     {
-        _renderer = gameObject.GetComponent<Renderer>();
-        _currentColor = _renderer.material.color;
-    }
-    private void OnEnable()
-    {
-        _timerController.TimerEnded += ResetObject;
-        ChangeFade();
-    }
-
-    private void OnDisable()
-    {
-        _timerController.TimerEnded -= ResetObject;
-    }
-
-    public void SetPosition(Vector3 position) =>
-        gameObject.transform.position = position;
-
-
-    private void ChangeFade()
-    {
-        int time = Random.Range(_minTimerValue, _maxTimerValue);
-        _timerController.StartTimer(time);
-        _colorController.StratChangeAlha(_renderer,time);
-    }
-
-    private void ResetObject()
-    {
-        TimeOut?.Invoke(this);
-        _renderer.material.color = _currentColor;
-        _timerController.StopTimer();
+        _colorController.StartChangeAlpha(_renderer, time);
     }
 }
