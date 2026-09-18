@@ -5,46 +5,46 @@ using Random = UnityEngine.Random;
 public abstract class EntityUnderTimer <T>: MonoBehaviour, ITimeoutable<T>
     where T : EntityUnderTimer <T>
 {
-    [SerializeField] protected int _minTimerValue = 2;
-    [SerializeField] protected int _maxTimerValue = 5;
+    [SerializeField] protected int MinTimerValue = 2;
+    [SerializeField] protected int MaxTimerValue = 5;
     [Space]
-    [SerializeField] protected ColorController _colorController;
-    [SerializeField] protected TimerController _timerController;
+    [SerializeField] protected ColorController ColorController;
+    [SerializeField] protected TimerController TimerController;
 
-    protected Renderer _renderer;
+    protected Renderer Renderer;
     private Color _currentColor;
     public event Action<T> TimeOut;
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
-        _currentColor = _renderer.material.color;
+        Renderer = GetComponent<Renderer>();
+        _currentColor = Renderer.material.color;
         AwakeSetup();
     }
 
     private void OnEnable()
     {
-        _timerController.TimerEnded += OnTimerEnded;
+        TimerController.TimerEnded += OnTimerEnded;
         StartTimer();
     }
 
 
     private void OnDisable()
     {
-        _timerController.TimerEnded -= OnTimerEnded;
+        TimerController.TimerEnded -= OnTimerEnded;
     }
 
     protected void StartTimer()
     {
-        int time = Random.Range(_minTimerValue, _maxTimerValue + 1);
-        _timerController.Star(time);
+        int time = Random.Range(MinTimerValue, MaxTimerValue + 1);
+        TimerController.Star(time);
         StartedTimer(time);
     }
 
     protected virtual void ResetState()
     {
-        _timerController.Stop();
-        _renderer.material.color = _currentColor;
+        TimerController.Stop();
+        Renderer.material.color = _currentColor;
 
         ResetSpecific();
     }

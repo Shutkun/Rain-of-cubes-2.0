@@ -16,7 +16,7 @@ public class Cube : EntityUnderTimer<Cube>
             StartTimer();
             if (_isColorChange == false)
             {
-                _colorController.ChangeColor(_renderer);
+                ColorController.ChangeColor(Renderer);
                 _isColorChange = true;
             }
         }
